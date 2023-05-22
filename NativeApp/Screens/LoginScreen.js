@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     fontFamily: "Roboto",
-
     height: 48,
     padding: 16,
     backgroundColor: "#F6F6F6",
@@ -135,7 +134,6 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-
     borderRadius: 100,
     backgroundColor: "#FF6C00",
     marginBottom: 16,
@@ -150,7 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textDecorationLine: "underline",
     fontFamily: "Roboto",
-
     textAlign: "center",
     marginBottom: 144,
   },

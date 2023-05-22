@@ -197,7 +197,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     marginBottom: 62,
     borderRadius: 8,
-    // borderRadius: "1px solid #E8E8E8",
     position: "relative",
   },
 
