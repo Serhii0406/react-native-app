@@ -7,7 +7,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
   Text,
   ImageBackground,
   TouchableOpacity,
@@ -15,19 +14,24 @@ import {
 
 const image = "../assets/bgFoto.png";
 
+const initialState = {
+  email: "",
+  password: "",
+};
+
 const Login = () => {
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [isShowPass, setIsShowPass] = useState(true);
+  const [state, setState] = useState(initialState);
+  
+  const [showPassword, setShowPassword] = useState(true);
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
 
-  const passwordHandler = (text) => setPassword(text);
-  const emailHandler = (text) => setEmail(text);
-  const showPassToggle = () => setIsShowPass(!isShowPass);
-
-  const onLogin = () => {
-    Alert.alert(`User Password: ${password}, Email: ${email}`);
+  const handleSubmit = () => {
+    console.log(state)
+    setIsKeyboardShow(false);
+    Keyboard.dismiss();
+    setState(initialState);
   };
+
   const keyBoardHide = () => {
     setIsKeyboardShow(false);
     Keyboard.dismiss();
@@ -48,24 +52,26 @@ const Login = () => {
               behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
               <TextInput
-                value={email}
-                onChangeText={emailHandler}
+                value={state.email}
+                onChangeText={(value) =>
+                  setState((prevState) => ({ ...prevState, email: value }))}
                 placeholder="Адресa електронної пошти"
                 style={styles.input}
                 onFocus={() => setIsKeyboardShow(true)}
               />
               <View style={styles.showPasscontainer}>
                 <TextInput
-                  value={password}
-                  onChangeText={passwordHandler}
+                  value={state.password}
+                  onChangeText={(value) =>
+                  setState((prevState) => ({ ...prevState, password: value }))}
                   placeholder="Пароль"
-                  secureTextEntry={isShowPass}
+                  secureTextEntry={showPassword}
                   style={[styles.inputPassword, styles.input]}
                   onFocus={() => setIsKeyboardShow(true)}
                 />
                 <TouchableOpacity
                   title={"Показати"}
-                  onPress={showPassToggle}
+                  onPress={() => setShowPassword(!showPassword)}
                   accessibilityLabel="Показати пароль"
                   style={styles.showPass}
                 >
@@ -74,7 +80,7 @@ const Login = () => {
               </View>
               <TouchableOpacity
                 title={"Увійти"}
-                onPress={onLogin}
+                onPress={handleSubmit}
                 accessibilityLabel="Увійти"
                 style={styles.buttonLogin}
               >

@@ -8,7 +8,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
   TouchableOpacity,
   Image,
   Text,
@@ -16,26 +15,23 @@ import {
 
 const image = "../assets/bgFoto.png";
 
-const Register = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
 
-  const [isShowPass, setIsShowPass] = useState(true);
+const Register = () => {
+  const [state, setState] = useState(initialState);
+  
+  const [showPassword, setShowPassword] = useState(true);
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
 
-  const loginHandler = (text) => setLogin(text);
-  const passwordHandler = (text) => setPassword(text);
-  const emailHandler = (text) => setEmail(text);
-  const showPassToggle = () => {
-    setIsShowPass(!isShowPass);
-  };
-
-  const onRegister = () => {
-    Alert.alert(`User login: ${login}, Password: ${password}, Email: ${email}`);
-    setEmail("");
-    setPassword("");
-    setLogin("");
+  const handleSubmit = () => {
+    console.log(state)
+    setIsKeyboardShow(false);
+    Keyboard.dismiss();
+    setState(initialState);
   };
 
   const keyBoardHide = () => {
@@ -81,30 +77,34 @@ const Register = () => {
               behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
               <TextInput
-                value={login}
-                onChangeText={loginHandler}
+                value={state.login}
+                onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, login: value }))}
                 placeholder="Логін"
                 style={styles.input}
                 onFocus={() => setIsKeyboardShow(true)}
               />
               <TextInput
-                value={email}
-                onChangeText={emailHandler}
+                value={state.email}
+                onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, email: value }))}
                 placeholder="Адресa електронної пошти"
                 style={styles.input}
                 onFocus={() => setIsKeyboardShow(true)}
               />
               <View style={styles.showPasscontainer}>
                 <TextInput
-                  value={password}
-                  onChangeText={passwordHandler}
+                  value={state.password}
+                  onChangeText={(value) =>
+                  setState((prevState) => ({
+                  ...prevState, password: value, }))}
                   placeholder="Пароль"
-                  secureTextEntry={isShowPass}
+                  secureTextEntry={showPassword}
                   style={[styles.inputPassword, styles.input]}
                   onFocus={() => setIsKeyboardShow(true)}
                 />
                 <TouchableOpacity
-                  onPress={showPassToggle}
+                  onPress={() => setShowPassword(!showPassword)}
                   accessibilityLabel="Показати пароль"
                   style={styles.showPass}
                 >
@@ -114,7 +114,7 @@ const Register = () => {
             </KeyboardAvoidingView>
           </View>
           <TouchableOpacity
-            onPress={onRegister}
+            onPress={handleSubmit}
             accessibilityLabel="Зареєструватися"
             style={styles.buttonRegister}
           >
